@@ -7,11 +7,12 @@ dotenv.config();
 
 
 
-(async () => {
+async function createAccount (i) {
+    var number=   Number(process.argv[2])      +i;
     // Paso 1: Iniciar el navegador (browser)
     const browser = await chromium.launch({
-        channel: 'msedge',
-        headless: false,
+        channel: 'chrome',
+        headless: true,
         args: ['--no-sandbox'] // Solo si es necesario
     });
 
@@ -28,7 +29,7 @@ dotenv.config();
     await page.goto('https://glupcvv.co/signup');
     await page.getByText("Username").first().click();
     await page.waitForTimeout(500);
-    await page.keyboard.type("joselmm" + process.env.NUMBER)
+    await page.keyboard.type("joselmm" + number)
 
 
 
@@ -39,7 +40,7 @@ dotenv.config();
 
     await page.getByText("Email").first().click();
     await page.waitForTimeout(500);
-    await page.keyboard.type(`josealfredosoraca+${process.env.NUMBER}@gmail.com`)
+    await page.keyboard.type(`josealfredosoraca+${number}@gmail.com`)
 
 
 
@@ -73,16 +74,17 @@ dotenv.config();
 
             var cookies = JSON.stringify(await context.cookies());
             //console.log('Cookies after logging in:', cookies);
-            writeFileSync("./cookies/joselmm" + process.env.NUMBER + '.json', cookies, 'utf8',);
-            console.log("SE GUARDO COOKIES");
-            browser.close();
+            writeFileSync("./cookies/joselmm" + number + '.json', cookies, 'utf8',);
+            console.log("SE GUARDO COOKIES "+number);
+            await browser.close();
             break;
         }
 
     }
 
+}
 
 
-    await page.waitForTimeout(30000)
-
-})()
+for (let i = 0; i < 100; i++) {
+  await createAccount(i);
+}

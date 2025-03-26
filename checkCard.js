@@ -1,5 +1,5 @@
 export default async function checkCard(card, page, gate) {
-    console.log("se recibio el gate: "+gate+" "+card)
+    console.log("se recibio el gate auth "+gate+": "+card)
     var result= await page.evaluate(async ({card, gate})=>{  
         var res= await fetch("https://glupcvv.co/api/v1/freechecker", {
             "body": JSON.stringify({ card, gate }),

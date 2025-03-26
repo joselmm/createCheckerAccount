@@ -8,9 +8,11 @@ dotenv.config();
 
 
 (async () => {
-    var number = 21;
+var dd= Number(process.argv[2]);
+console.log(dd)
+    var number = dd|| 50 ;
     var gate=2 ;
-
+	var bin = process.argv[3] || process.env.BIN;
 
 
 
@@ -32,26 +34,30 @@ dotenv.config();
     // Paso 3: Crear una página desde el contexto
     const page = await context.newPage();
     await signIn (context, number)
-    var card = generateCardFromString(process.env.BIN);
+    var card = generateCardFromString(bin);
 //console.log(card)
     await page.goto('https://glupcvv.co/tools/authchecker'+gate);
 
 
     var attempts = Number(process.env.ATTEMPTS);
-    for (let i = 0; i < attempts; i++) {
-        var card = generateCardFromString(process.env.BIN);
+    for (let i = 0; i < attempts; null) {
+        var card = generateCardFromString(bin);
         
         var resCard = await checkCard(card, page, gate);
         //console.log(resCard);
         if(resCard.hasOwnProperty("message") && resCard.message==="Server error"){
             console.log("error servidor")
         }else if(resCard.data.res==='Insufficient Credits'){
-            console.log("Creditos acabados para "+number+"\n pasando a "+(number+1))
+            console.log("Creditos acabados para "+number+" pasando a "+(number+1))
             var number= number+1;
             await signIn (context, number);
             
         }else{
             console.log(resCard.data);
+            i++;
+            
+            console.log("intento "+i);
+            await signIn (context, number);
         }
     }
     
