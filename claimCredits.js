@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import { chromium } from 'playwright-core';
 import dotenv from "dotenv";
 import signIn from './signIn.js';
 import {generateCardFromString} from "./genCard.js"
@@ -22,8 +22,10 @@ dotenv.config();
     // Paso 1: Iniciar el navegador (browser)
     const browser = await chromium.launch({
         channel: 'chrome',
-        headless: true,
-        args: ['--no-sandbox'] // Solo si es necesario
+        headless: false,
+        args: ['--no-sandbox'], // Solo si es necesario,
+        executablePath:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+
     });
 
  // Paso 2: Crear un contexto con configuración móvil

@@ -12,7 +12,7 @@ async function createAccount (i) {
     // Paso 1: Iniciar el navegador (browser)
     const browser = await chromium.launch({
         channel: 'chrome',
-        headless: true,
+        headless: false,
         args: ['--no-sandbox'] // Solo si es necesario
     });
 
@@ -26,7 +26,7 @@ async function createAccount (i) {
     const page = await context.newPage();
 
     // Navegar a una URL
-    await page.goto('https://glupcvv.co/signup');
+    await page.goto('https://glupcvv.co/');
     await page.getByText("Username").first().click();
     await page.waitForTimeout(500);
     await page.keyboard.type("joselmm" + number)
@@ -38,10 +38,10 @@ async function createAccount (i) {
     await page.keyboard.type(`jose5432`)
 
 
-    await page.getByText("Email").first().click();
+/*     await page.getByText("Email").first().click();
     await page.waitForTimeout(500);
     await page.keyboard.type(`josealfredosoraca+${number}@gmail.com`)
-
+ */
 
 
 
@@ -57,10 +57,10 @@ async function createAccount (i) {
             await page.keyboard.type(result.trim());
             await page.locator("button[type='submit']").click();
 
-            var res = await page.waitForResponse("https://glupcvv.co/api/v1/auth/register");
+            var res = await page.waitForResponse("https://glupcvv.co/api/v1/auth/login");
             var body = await res.body();
             var json = JSON.parse(body.toString());
-            if (json && json.message === "Captcha incorrect") {
+            if (json && !json.hasOwnProperty("uu")) {
                 await page.evaluate(()=>{
                     document.querySelector("input#captcha").value="";
                     return "ya"
