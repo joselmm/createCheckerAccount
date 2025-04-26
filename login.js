@@ -12,7 +12,7 @@ async function createAccount (i) {
     // Paso 1: Iniciar el navegador (browser)
     const browser = await chromium.launch({
         channel: 'chrome',
-        headless: false,
+        headless: true,
         args: ['--no-sandbox'] // Solo si es necesario
     });
 

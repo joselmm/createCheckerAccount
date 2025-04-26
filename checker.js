@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import signIn from './signIn.js';
 import { generateCardFromString } from "./genCard.js"
 import checkCard from './checkCard.js';
+import notifier from 'node-notifier';
 dotenv.config();
 
 
@@ -39,24 +40,43 @@ dotenv.config();
     await page.goto('https://glupcvv.co/tools/authchecker' + gate);
 
 
+
+
     var attempts = Number(process.env.ATTEMPTS);
     for (let i = 0; i < attempts; null) {
         var card = generateCardFromString(bin);
-
+        
         var resCard = await checkCard(card, page, gate);
         //console.log(resCard);
-        if (resCard.hasOwnProperty("message") && resCard.message === "Server error") {
+
+        if (resCard?.result && resCard.result === "Invalid Card") {
+            console.log("Tarjeta invalida: " + card);
+        }
+        else if (resCard.hasOwnProperty("message") && resCard.message === "Server error") {
             console.log("error servidor")
+
         } else if (resCard.data.res === 'Insufficient Credits') {
             console.log("Creditos acabados para " + number + " pasando a " + (number + 1))
             var number = number + 1;
             await signIn(context, number);
 
         } else {
+
+
             console.log(resCard.data);
             i++;
 
             console.log("intento " + i);
+
+
+            if (resCard.data.type === "CVV Declined" || resCard.data.type === "Approved") {
+
+                notifier.notify({
+                    title: '✅ Live Encontrada',
+                    message: "Encontto una live en intento " + i
+                });
+            }
+
             await signIn(context, number);
 
         }

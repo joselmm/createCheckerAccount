@@ -32,7 +32,7 @@ export default function getCaptchaSolution() {
                     ]
                   }
                 ],
-                "model": "llama-3.2-11b-vision-preview",
+                "model": "meta-llama/llama-4-scout-17b-16e-instruct",
                 "temperature": 1,
                 "max_completion_tokens": 1024,
                 "top_p": 1,
@@ -42,6 +42,7 @@ export default function getCaptchaSolution() {
         })
         .then(e=>e.json())
         .then(e=>{
+          
             //console.log(e)
             resolve(e.choices[0].message.content)})
         .catch(e=>console.log(e))
