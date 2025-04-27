@@ -12,7 +12,7 @@ async function createAccount (i) {
     // Paso 1: Iniciar el navegador (browser)
     const browser = await chromium.launch({
         channel: 'chrome',
-        headless: true,
+        headless: process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ? true:false ,
         args: ['--no-sandbox'] // Solo si es necesario
     });
 
@@ -49,8 +49,10 @@ async function createAccount (i) {
     
     for (let i = 0; i < 10; i++) {
         await page.waitForTimeout(1000);
-        await page.locator("img[alt='Captcha']").screenshot({ path: 'captcha.png' })
-        var result = await getCaptchaSolution();
+        var buffer= await page.locator("img[alt='Captcha']").screenshot()
+        const base64 = buffer.toString('base64');
+
+        var result = await getCaptchaSolution(base64);
         if (result) {
 
             await page.locator("input#captcha").click()
