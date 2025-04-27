@@ -45,8 +45,10 @@ async function loginAccount (i) {
 
     for (let i = 0; i < 10; i++) {
         await page.waitForTimeout(1000);
-        await page.locator("img[alt='Captcha']").screenshot({ path: 'captcha.png' })
-        var result = await getCaptchaSolution();
+       var buffer= await page.locator("img[alt='Captcha']").screenshot()
+        const base64 = buffer.toString('base64');
+
+        var result = await getCaptchaSolution(base64);
         if (result) {
 
             await page.locator("input#captcha").click()

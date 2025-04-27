@@ -2,10 +2,10 @@ import fetch from "node-fetch";
 import {readFileSync} from "fs";
 import  imageType from 'image-type';
 
-export default function getCaptchaSolution() {
-
+export default function getCaptchaSolution(base64) {
+  base64="data:image/png;base64,"+base64
     return new Promise(async (resolve, reject) => {
-        var dataUrl = await convertToDataUrl();
+      /*   var dataUrl = await convertToDataUrl(); */
 
         fetch("https://api.groq.com/openai/v1/chat/completions",{
 
@@ -26,7 +26,7 @@ export default function getCaptchaSolution() {
                       {
                         "type": "image_url",
                         "image_url": {
-                          "url": `${dataUrl}`
+                          "url": `${base64}`
                         }
                       }
                     ]
@@ -42,8 +42,7 @@ export default function getCaptchaSolution() {
         })
         .then(e=>e.json())
         .then(e=>{
-          
-            //console.log(e)
+
             resolve(e.choices[0].message.content)})
         .catch(e=>console.log(e))
     })   
