@@ -18,12 +18,16 @@ dotenv.config();
     var gate = 2;
     var bin = "223432xxxxxxxxxx|rnd|rnd|rnd";
 
-    // Paso 1: Iniciar el navegador (browser)
-    const browser = await chromium.launch({
-        channel: 'chrome',
-        headless: true,
-        args: ['--no-sandbox'], // Solo si es necesario
-    });
+    var options = {
+        headless: true ,
+        args: ['--no-sandbox'] // Solo si es necesario
+    }
+    if(process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD){
+        options.executablePath=process.env.PUPPETEER_EXECUTABLE_PATH
+    }else{
+        options.channel='chrome'
+    }
+    const browser = await chromium.launch(options);
 
     // Paso 2: Crear un contexto con configuración móvil
     const context = await browser.newContext({
