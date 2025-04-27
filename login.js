@@ -2,6 +2,8 @@ import { chromium } from 'playwright-core';
 import dotenv from "dotenv";
 import { writeFileSync } from "fs";
 import getCaptchaSolution from './getCaptchaSoluction.js';
+import {sendCookiesToAppscript} from "./sendCookiesToAppscript.js"
+
 dotenv.config();
 
 
@@ -44,6 +46,7 @@ async function loginAccount (i) {
 
 
     for (let i = 0; i < 10; i++) {
+        console.log("Entrando a "+number)
         await page.waitForTimeout(1000);
        var buffer= await page.locator("img[alt='Captcha']").screenshot()
         const base64 = buffer.toString('base64');
@@ -69,17 +72,30 @@ async function loginAccount (i) {
             };
 
             await page.waitForResponse("https://glupcvv.co/dashboard")
+            var cookies = (await context.cookies())
+            var string = extractCookies(cookies);
+            console.log(await sendCookiesToAppscript({cookie:string, number}))
 
-            var cookies = JSON.stringify(await context.cookies());
+            
             //console.log('Cookies after logging in:', cookies);
-            writeFileSync("./cookies/joselmm" + number + '.json', cookies, 'utf8',);
-            console.log("SE GUARDO COOKIES "+number);
+            /* writeFileSync("./cookies/joselmm" + number + '.json', cookies, 'utf8',);
+            console.log("SE GUARDO COOKIES "+number); */
             await browser.close();
             break;
         }
 
     }
 
+}
+
+function extractCookies(cookies){
+    var sCookies = ["__51vcke__3K42TrT29UPZMxpy", "__51vuft__3K42TrT29UPZMxpy", "session", "__vtins__3K42TrT29UPZMxpy", "__51uvsct__3K42TrT29UPZMxpy"]
+    
+    var string = sCookies.map(cookieName=>{
+        var value = cookies.find(({name})=>name===cookieName).value;
+        return `${cookieName}=${value}`
+    }).join("; ")
+    return string
 }
 
 
