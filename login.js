@@ -7,7 +7,7 @@ dotenv.config();
 
 
 
-async function createAccount (i) {
+async function loginAccount (i) {
     var number=   Number(process.argv[2])      +i;
     // Paso 1: Iniciar el navegador (browser)
     const browser = await chromium.launch({
@@ -85,6 +85,6 @@ async function createAccount (i) {
 }
 
 
-for (let i = 0; i < 100; i++) {
-  await createAccount(i);
+for (let i = 0; i+Number(process.argv[2]) <= Number(process.argv[3]); i++) {
+  await loginAccount(i);
 }
