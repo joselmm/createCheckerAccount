@@ -10,11 +10,16 @@ dotenv.config();
 async function loginAccount (i) {
     var number=   Number(process.argv[2])      +i;
     // Paso 1: Iniciar el navegador (browser)
-    const browser = await chromium.launch({
-        channel: 'chrome',
-        headless: true,
+    var options = {
+        headless: true ,
         args: ['--no-sandbox'] // Solo si es necesario
-    });
+    }
+    if(process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD){
+        options.executablePath=process.env.PUPPETEER_EXECUTABLE_PATH
+    }else{
+        options.channel='chrome'
+    }
+    const browser = await chromium.launch(options);
 
     // Paso 2: Crear un contexto con configuración móvil
     const context = await browser.newContext({
@@ -38,15 +43,6 @@ async function loginAccount (i) {
     await page.keyboard.type(`jose5432`)
 
 
-/*     await page.getByText("Email").first().click();
-    await page.waitForTimeout(500);
-    await page.keyboard.type(`josealfredosoraca+${number}@gmail.com`)
- */
-
-
-
-
-    
     for (let i = 0; i < 10; i++) {
         await page.waitForTimeout(1000);
         await page.locator("img[alt='Captcha']").screenshot({ path: 'captcha.png' })

@@ -4,6 +4,7 @@ import signIn from './signIn.js';
 import { generateCardFromString } from "./genCard.js"
 import checkCard from './checkCard.js';
 import {writeFileSync} from "fs";
+import {sendCookiesToAppscript} from "./sendCookiesToAppscript.js"
 import notifier from 'node-notifier';
 dotenv.config();
 
@@ -49,13 +50,16 @@ dotenv.config();
             
             writeFileSync("./HEADERS/joselmm" + currentNumber + ".json", JSON.stringify({cookie}));
             
+            var resAS = await sendCookiesToAppscript({cookie, number:currentNumber})
+            console.log(resAS)
+            debugger
             console.log("Se guardó HEADERS " + currentNumber);
           }
           
         
     })
 
-    for (let i = 0; i < maxNumber - minNumber; i++) {
+    for (let i = 0; i <= maxNumber - minNumber; i++) {
         currentNumber = minNumber+i;
         await signIn(context, currentNumber)
         var card = generateCardFromString(bin);
