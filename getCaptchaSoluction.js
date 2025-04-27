@@ -12,7 +12,7 @@ export default function getCaptchaSolution() {
             method:"POST",
             headers:{
                 "Content-Type":"application/json",
-                "Authorization":"Bearer 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"
+                "Authorization":"Bearer "+process.env.GROK_API_KEY
             },
             body:JSON.stringify({
                 "messages": [

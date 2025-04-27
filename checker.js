@@ -75,6 +75,23 @@ dotenv.config();
                     title: '✅ Live Encontrada',
                     message: "Encontto una live en intento " + i
                 });
+            }else{
+                /* {
+                    "ret": "4971760000680872|02|2027|894",
+                    "data": {
+                        "type": "Declined",
+                        "res": "RISK Card"
+                    },
+                    "ccInfo": {
+                        "bin": 497176,
+                        "brand": "VISA",
+                        "type": "DEBIT",
+                        "level": "GOLD",
+                        "bank": "BANQUE DES CARAIBES",
+                        "countryName": "FRANCE",
+                        "countryCodeA2": "FR"
+                    }
+                } */
             }
 
             await signIn(context, number);
