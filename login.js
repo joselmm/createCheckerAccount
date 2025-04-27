@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
-    
+    keepAlive();
 })
 
 
@@ -122,7 +122,7 @@ for (let i = 0; i + Number(process.argv[2]) <= Number(process.argv[3]); i++) {
     await loginAccount(i);
 }
 
-(async ()=>{
+async function keepAlive (){
     if(process.env.PUPPETEER_EXECUTABLE_PATH){
         console.log("Auto call to keep live activo")
         for (let i = 0; i  <= 4; ++i) {
@@ -131,4 +131,4 @@ for (let i = 0; i + Number(process.argv[2]) <= Number(process.argv[3]); i++) {
             console.log("respuesta "+i+" keep alive "+res)
         }
     }
-})()
+}
