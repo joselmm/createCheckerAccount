@@ -11,6 +11,7 @@ async function createAccount (i) {
     var number=   Number(process.argv[2])      +i;
     // Paso 1: Iniciar el navegador (browser)
     const browser = await chromium.launch({
+        headless:false,
         channel: 'chrome',
         headless: process.env.PUPPETEER_SKIP_CHROMIUM_DOWNLOAD ? true:false ,
         args: ['--no-sandbox'] // Solo si es necesario

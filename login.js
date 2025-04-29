@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { writeFileSync } from "fs";
 import getCaptchaSolution from './getCaptchaSoluction.js';
 import { sendCookiesToAppscript } from "./sendCookiesToAppscript.js"
+import {getAllUu} from "./getAllUu.js"
 import express from "express";
 import cors from "cors";
 const app = express();
@@ -29,6 +30,7 @@ app.listen(port, () => {
 
 
 async function loginAccount(i) {
+   
     var number = Number(process.argv[2]) + i;
     // Paso 1: Iniciar el navegador (browser)
     var options = {

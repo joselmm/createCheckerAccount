@@ -1,10 +1,10 @@
 import { chromium } from 'playwright-core';
 import dotenv from "dotenv";
+dotenv.config();
 import signIn from './signIn.js';
 import { generateCardFromString } from "./genCard.js"
 import checkCard from './checkCard.js';
 import notifier from 'node-notifier';
-dotenv.config();
 
 
 
